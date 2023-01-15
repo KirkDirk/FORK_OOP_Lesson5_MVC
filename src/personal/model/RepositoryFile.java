@@ -40,6 +40,7 @@ public class RepositoryFile implements Repository {
     }
     /**
      * Обновление данных заданного юзера. При обновлении - если новые данные пустые, оставляем старые данные.
+     * @param fUser - данные заданного пользователя, которые корректируются. Если значение не вводить, поле останется прежним
      */
     @Override
     public void updateUser(User fUser) {
@@ -59,7 +60,10 @@ public class RepositoryFile implements Repository {
         }        
         usersToFile(users);
     }
-
+    /**
+     * Метод записи данных пользователей в файл
+     * @param newusers - список пользователей для записи
+     */
     private void usersToFile(List<User> newusers){
         List<String> lines = new ArrayList<>();
         for (User item: newusers) {

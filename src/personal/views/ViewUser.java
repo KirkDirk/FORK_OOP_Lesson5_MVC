@@ -1,7 +1,6 @@
 package personal.views;
 
 import personal.controllers.UserController;
-import personal.model.FileOperationImpl;
 import personal.model.User;
 
 import java.util.List;
@@ -20,14 +19,11 @@ public class ViewUser {
 
         while (true) {
             String command = prompt("Введите команду: ");
-            com = Commands.valueOf(command);
+            com = Commands.valueOf(command.toUpperCase());
             if (com == Commands.EXIT) return;
             switch (com) {
                 case CREATE:
-                    String firstName = prompt("Имя: ");
-                    String lastName = prompt("Фамилия: ");
-                    String phone = prompt("Номер телефона: ");
-                    userController.saveUser(new User(firstName, lastName, phone));
+                    userController.saveUser(getUserData());
                     break;
                 case READ:
                     String id = prompt("Идентификатор пользователя: ");
@@ -47,15 +43,9 @@ public class ViewUser {
                     break;
                 case UPDATE:
                     String findID = prompt("Идентификатор пользователя:");
-                    try {
-                        User user = userController.readUser(findID); //проверяем, есть ли такой юзер
-                        user.setFirstName(prompt("Имя: "));
-                        user.setLastName(prompt("Фамилия: "));
-                        user.setPhone(prompt("Номер телефона: "));
-                        userController.updateUser(user);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
+                    User user = getUserData();
+                    user.setId(findID);
+                    userController.updateUser(user);
                     break;
             }
         }
@@ -65,5 +55,17 @@ public class ViewUser {
         Scanner in = new Scanner(System.in);
         System.out.print(message);
         return in.nextLine();
+    }
+
+    /**
+     * Метод сбора данных пользователя с консоли
+     * @return - User с полями ИМЯ, ФАМИЛИЯ, ТЕЛЕФОН
+     */
+    private User getUserData(){
+        User tempUser = new User(null, null, null);
+        tempUser.setFirstName(prompt("Имя: "));
+        tempUser.setLastName(prompt("Фамилия: "));
+        tempUser.setPhone(prompt("Номер телефона: "));
+        return tempUser;
     }
 }
