@@ -22,8 +22,7 @@ public class RepositoryFile implements Repository {
     }
 
     @Override
-    public String CreateUser(User user) {
-
+    public String createUser(User user) {
         List<User> users = getAllUsers();
         int max = 0;
         for (User item : users) {
@@ -36,11 +35,36 @@ public class RepositoryFile implements Repository {
         String id = String.format("%d", newId);
         user.setId(id);
         users.add(user);
+        usersToFile(users);
+        return id;
+    }
+    /**
+     * Обновление данных заданного юзера. При обновлении - если новые данные пустые, оставляем старые данные.
+     */
+    @Override
+    public void updateUser(User fUser) {
+        List<User> users = getAllUsers();
+        for (User user : users) {
+            if (user.getId().equals(fUser.getId())) {
+                if (fUser.getFirstName() != "") {
+                    user.setFirstName(fUser.getFirstName());    
+                } 
+                if (fUser.getLastName() != "") {
+                    user.setLastName(fUser.getLastName());    
+                }
+                if (fUser.getPhone() != "") {
+                    user.setPhone(fUser.getPhone());    
+                }
+            }
+        }        
+        usersToFile(users);
+    }
+
+    private void usersToFile(List<User> newusers){
         List<String> lines = new ArrayList<>();
-        for (User item: users) {
+        for (User item: newusers) {
             lines.add(mapper.map(item));
         }
         fileOperation.saveAllLines(lines);
-        return id;
     }
 }

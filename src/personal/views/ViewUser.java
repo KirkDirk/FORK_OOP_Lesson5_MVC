@@ -44,6 +44,19 @@ public class ViewUser {
                     for (User user : outList) {
                         System.out.println(user.toString());
                     }
+                    break;
+                case UPDATE:
+                    String findID = prompt("Идентификатор пользователя:");
+                    try {
+                        User user = userController.readUser(findID); //проверяем, есть ли такой юзер
+                        user.setFirstName(prompt("Имя: "));
+                        user.setLastName(prompt("Фамилия: "));
+                        user.setPhone(prompt("Номер телефона: "));
+                        userController.updateUser(user);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
             }
         }
     }

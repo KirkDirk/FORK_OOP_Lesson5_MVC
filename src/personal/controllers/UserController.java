@@ -13,7 +13,7 @@ public class UserController {
     }
 
     public void saveUser(User user) {
-        repository.CreateUser(user);
+        repository.createUser(user);
     }
 
     public User readUser(String userId) throws Exception {
@@ -33,5 +33,12 @@ public class UserController {
      */
     public List<User> getListUsers(){
         return repository.getAllUsers();
+    }
+    /**
+     * Проводим замену пользователя в репе
+     * @param user
+     */
+    public void updateUser(User user){
+        repository.updateUser(user);
     }
 }
