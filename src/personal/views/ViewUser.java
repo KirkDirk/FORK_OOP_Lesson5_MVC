@@ -1,8 +1,10 @@
 package personal.views;
 
 import personal.controllers.UserController;
+import personal.model.FileOperationImpl;
 import personal.model.User;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class ViewUser {
@@ -36,6 +38,12 @@ public class ViewUser {
                         throw new RuntimeException(e);
                     }
                     break;
+                case LIST:
+                    System.out.println("Все пользователи: ");
+                    List<User> outList = userController.getListUsers();
+                    for (User user : outList) {
+                        System.out.println(user.toString());
+                    }
             }
         }
     }

@@ -26,4 +26,12 @@ public class UserController {
 
         throw new Exception("User not found");
     }
+
+    /**
+     * Получаем список всех пользователей
+     * @return - возвращает List<User>
+     */
+    public List<User> getListUsers(){
+        return repository.getAllUsers();
+    }
 }
