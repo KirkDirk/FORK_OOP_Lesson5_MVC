@@ -14,39 +14,46 @@ public class ViewUser {
         this.userController = userController;
     }
 
-    public void run(){
+    public void run() {
         Commands com = Commands.NONE;
 
         while (true) {
             String command = prompt("Введите команду: ");
             com = Commands.valueOf(command.toUpperCase());
-            if (com == Commands.EXIT) return;
-            switch (com) {
-                case CREATE:
-                    userController.saveUser(getUserData());
-                    break;
-                case READ:
-                    String id = prompt("Идентификатор пользователя: ");
-                    try {
+            if (com == Commands.EXIT)
+                return;
+            try {
+                switch (com) {
+                    case CREATE:
+                        try {
+                            userController.saveUser(getUserData());
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
+                        break;
+                    case READ:
+                        String id = prompt("Идентификатор пользователя: ");
+
                         User user = userController.readUser(id);
                         System.out.println(user);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                    break;
-                case LIST:
-                    System.out.println("Все пользователи: ");
-                    List<User> outList = userController.getListUsers();
-                    for (User user : outList) {
-                        System.out.println(user.toString());
-                    }
-                    break;
-                case UPDATE:
-                    String findID = prompt("Идентификатор пользователя:");
-                    User user = getUserData();
-                    user.setId(findID);
-                    userController.updateUser(user);
-                    break;
+
+                        break;
+                    case LIST:
+                        System.out.println("Все пользователи: ");
+                        List<User> outList = userController.getListUsers();
+                        for (User usr : outList) {
+                            System.out.println(usr.toString());
+                        }
+                        break;
+                    case UPDATE:
+                        String findID = prompt("Идентификатор пользователя:");
+                        User findUser = getUserData();
+                        findUser.setId(findID);
+                        userController.updateUser(findUser);
+                        break;
+                }
+            } catch (Exception e) {
+                System.out.println("Что-то пошло не так: " + e.getMessage()); 
             }
         }
     }
@@ -59,9 +66,10 @@ public class ViewUser {
 
     /**
      * Метод сбора данных пользователя с консоли
+     * 
      * @return - User с полями ИМЯ, ФАМИЛИЯ, ТЕЛЕФОН
      */
-    private User getUserData(){
+    private User getUserData() {
         User tempUser = new User(null, null, null);
         tempUser.setFirstName(prompt("Имя: "));
         tempUser.setLastName(prompt("Фамилия: "));
