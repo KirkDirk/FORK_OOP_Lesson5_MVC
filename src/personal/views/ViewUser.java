@@ -47,6 +47,7 @@ public class ViewUser {
                         break;
                     case UPDATE:
                         String findID = prompt("Идентификатор пользователя:");
+                        userController.validIdUpdate(findID);
                         User findUser = getUserData();
                         findUser.setId(findID);
                         userController.updateUser(findUser);

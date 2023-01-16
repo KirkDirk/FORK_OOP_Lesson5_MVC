@@ -43,6 +43,7 @@ public class UserController {
      * @throws Exception
      */
     public void updateUser(User user) throws Exception {
+        validIdUpdate(user.getId());
         validationID(user);
         repository.updateUser(user);
     }
@@ -68,5 +69,17 @@ public class UserController {
         validationID(user);
     }
 
+    /**
+     * Проверка при UPDATE на существование ID
+     * @param inputID - введенный ID
+     * @throws Exception
+     */
+    public void validIdUpdate (String inputID) throws Exception {
+        List<User> users = repository.getAllUsers();
+        for (User us : users) {
+            if (us.getId().equals(inputID)) { return; }
+        }
+        throw new Exception("ID not found");
+    }
 
 }
