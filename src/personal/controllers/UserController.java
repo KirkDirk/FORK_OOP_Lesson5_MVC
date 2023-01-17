@@ -82,4 +82,12 @@ public class UserController {
         throw new Exception("ID not found");
     }
 
+    /**
+     * Удаление пользователя по ID
+     * @param deleteID - передаваемый ID для удаления
+     */
+    public void deleteUser (String deleteID) {
+        repository.deleteUser(deleteID);
+    }
+
 }

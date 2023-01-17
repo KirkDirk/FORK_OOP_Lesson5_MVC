@@ -25,18 +25,12 @@ public class ViewUser {
             try {
                 switch (com) {
                     case CREATE:
-                        try {
-                            userController.saveUser(getUserData());
-                        } catch (Exception e1) {
-                            e1.printStackTrace();
-                        }
+                        userController.saveUser(getUserData());
                         break;
                     case READ:
                         String id = prompt("Идентификатор пользователя: ");
-
                         User user = userController.readUser(id);
                         System.out.println(user);
-
                         break;
                     case LIST:
                         System.out.println("Все пользователи: ");
@@ -51,6 +45,11 @@ public class ViewUser {
                         User findUser = getUserData();
                         findUser.setId(findID);
                         userController.updateUser(findUser);
+                        break;
+                    case DELETE:
+                        String delID = prompt("Введите ID пользователя для удаления: ");
+                        userController.validIdUpdate(delID);
+                        userController.deleteUser(delID);
                         break;
                 }
             } catch (Exception e) {

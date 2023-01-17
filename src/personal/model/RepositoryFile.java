@@ -27,7 +27,7 @@ public class RepositoryFile implements Repository {
         int max = 0;
         for (User item : users) {
             int id = Integer.parseInt(item.getId());
-            if (max < id){
+            if (max < id) {
                 max = id;
             }
         }
@@ -38,9 +38,12 @@ public class RepositoryFile implements Repository {
         usersToFile(users);
         return id;
     }
+
     /**
-     * Обновление данных заданного юзера. При обновлении - если новые данные пустые, оставляем старые данные.
-     * @param fUser - данные заданного пользователя, которые корректируются. Если значение не вводить, поле останется прежним
+     * Обновление данных заданного юзера. При обновлении - если новые данные пустые,
+     * оставляем старые данные.
+     * @param fUser - данные заданного пользователя, которые корректируются. Если
+     *              значение не вводить, поле останется прежним
      */
     @Override
     public void updateUser(User fUser) {
@@ -48,27 +51,45 @@ public class RepositoryFile implements Repository {
         for (User user : users) {
             if (user.getId().equals(fUser.getId())) {
                 if (fUser.getFirstName() != "") {
-                    user.setFirstName(fUser.getFirstName());    
-                } 
+                    user.setFirstName(fUser.getFirstName());
+                }
                 if (fUser.getLastName() != "") {
-                    user.setLastName(fUser.getLastName());    
+                    user.setLastName(fUser.getLastName());
                 }
                 if (fUser.getPhone() != "") {
-                    user.setPhone(fUser.getPhone());    
+                    user.setPhone(fUser.getPhone());
                 }
             }
-        }        
+        }
         usersToFile(users);
     }
+
     /**
      * Метод записи данных пользователей в файл
+     * 
      * @param newusers - список пользователей для записи
      */
-    private void usersToFile(List<User> newusers){
+    private void usersToFile(List<User> newusers) {
         List<String> lines = new ArrayList<>();
-        for (User item: newusers) {
+        for (User item : newusers) {
             lines.add(mapper.map(item));
         }
         fileOperation.saveAllLines(lines);
+    }
+    
+    /**
+     * Метод удаления по ID записи пользователя в списке
+     */
+    @Override
+    public void deleteUser(String deleteID) {
+        List<User> users = getAllUsers();
+        int index = -1;
+        for (User u : users) {
+            if (u.getId().equals(deleteID)) {
+                index = users.indexOf(u);
+            }
+        }
+        users.remove(index);
+        usersToFile(users);
     }
 }
