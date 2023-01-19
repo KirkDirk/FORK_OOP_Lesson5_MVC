@@ -6,9 +6,13 @@ import java.util.List;
 public class RepositoryFile implements Repository {
     private UserMapper mapper = new UserMapper();
     private FileOperation fileOperation;
+       
+    private FileOperation fileOperation2;
 
-    public RepositoryFile(FileOperation fileOperation) {
+
+    public RepositoryFile(FileOperation fileOperation, FileOperation fileOperation2) {
         this.fileOperation = fileOperation;
+        this.fileOperation2 = fileOperation2;
     }
 
     @Override
@@ -65,16 +69,20 @@ public class RepositoryFile implements Repository {
     }
 
     /**
-     * Метод записи данных пользователей в файл
+     * Метод записи данных пользователей в файл users.txt
+     * Дублируем запись в users2.txt через UserMapper.map2
      * 
      * @param newusers - список пользователей для записи
      */
     private void usersToFile(List<User> newusers) {
         List<String> lines = new ArrayList<>();
+        List<String> lines2 = new ArrayList<>();
         for (User item : newusers) {
             lines.add(mapper.map(item));
+            lines2.add(mapper.map2(item));
         }
         fileOperation.saveAllLines(lines);
+        fileOperation2.saveAllLines(lines2);
     }
     
     /**

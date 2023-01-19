@@ -49,7 +49,7 @@ public class UserController {
     }
 
     /**
-     * Проверка на вшивость при вводе данных
+     * Проверка на отстутствие имени или фамилии при вводе данных
      * 
      * @param user
      */
@@ -60,7 +60,7 @@ public class UserController {
 
     /**
      * Проверка на пустотность ID
-     * @param user
+     * @param user - передаваемый пользователья для проверки
      * @throws Exception
      */
     private void validationID (User user) throws Exception {
